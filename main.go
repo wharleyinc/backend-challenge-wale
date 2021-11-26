@@ -6,10 +6,14 @@ import (
 	"backend-wale/config"
 	"context"
 	"github.com/gin-gonic/gin"
+	"os"
 )
 
 func main() {
+	port := os.Getenv("PORT")
 	router := gin.Default()
+
+	router.Use(gin.Logger())
 
 	adapter.NewMongoDatabaseAdapter(context.Background(), config.Load())
 
@@ -20,5 +24,5 @@ func main() {
 	//router.POST("/auth/forgot-password", forgotPassword)
 	//router.POST("/auth/reset-password", resetPassword)
 
-	router.Run("localhost:8080")
+	router.Run(":" + port)
 }
