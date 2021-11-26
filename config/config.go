@@ -19,19 +19,23 @@ func Load() Config {
 
 	var cfg Config
 
-	port, ok := os.LookupEnv("SERVICE_PORT")
+	/*port, ok := os.LookupEnv("SERVICE_PORT")
 	if !ok {
 		port = "8080"
-	}
+	}*/
+
+	port := os.Getenv("PORT")
 	cfg.Port = port
 
-	mongoUri, ok := os.LookupEnv("MONGODB_URI")
+	mongoUri := os.Getenv("MONGODB_URI")
+
+	/*mongoUri, ok := os.LookupEnv("MONGODB_URI")
 	if !ok {
 		mongoUri = "mongodb://user:password@localhost:27017"
-	}
+	}*/
 	cfg.MongoURI = mongoUri
 	cfg.MongoTimeout = 10
-	cfg.Secret = "ion619)>@|!.ka903upj|)qn;93JK,x682ojnqa';ai22"
+	cfg.Secret = os.Getenv("SECRET")
 	cfg.OtpDuration = 10 * time.Minute
 
 	return cfg
