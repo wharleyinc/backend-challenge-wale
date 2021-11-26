@@ -6,10 +6,13 @@ import (
 	"backend-wale/config"
 	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"os"
 )
 
 func main() {
+
+	_ = godotenv.Load("backend.env")
 	port := os.Getenv("PORT")
 	router := gin.Default()
 

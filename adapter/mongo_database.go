@@ -46,6 +46,7 @@ func CreateAccountNormal(ctx context.Context, email, password string) (bool, err
 		ctx, filter)
 
 	if cursor.Decode(&newAccount) != nil {
+		log.Println(&newAccount)
 		log.Println("user email address already taken")
 		return false, errors.New("user email address already taken")
 	}
@@ -66,19 +67,16 @@ func CreateAccountNormal(ctx context.Context, email, password string) (bool, err
 
 func GetAccountNormal(ctx context.Context, email, password string) (bool, error) {
 
-	filter := bson.M{}
-	filter["email"] = email
+	filter := bson.D{{"email", email}} // pass email to filter query
 
 	cursor, err := Mongodb.Collection("backend").Find(
 		ctx, filter)
 
-	if cursor.ID() == 0 {
-		return false, err
-	}
 	var result model.CreateAccount
-	errr := cursor.Decode(&result)
-	if errr != nil {
-		return false, errr
+	if cursor.Decode(result) != nil {
+		log.Println(result)
+		log.Println("we can't log you in now")
+		return false, errors.New("we can't log you in now ERROR")
 	}
 
 	if !(computePasswordHash(password, result.Salt) == result.PasswordHash) {
