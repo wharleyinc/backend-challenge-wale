@@ -6,22 +6,22 @@ import (
 )
 
 type Account struct {
-	AccountID   string
-	Email    string
+	AccountID string
+	Email     string
 	CreatedAt time.Time
 }
 
 type CreateAccount struct {
-	Email    string
+	Email        string
 	PasswordHash string
-	Salt string
-	CreatedAt time.Time
+	Salt         string
+	CreatedAt    time.Time
 }
 
 type NewAccount struct {
-	AccountID   string
-	Email    string
-	Password string
+	AccountID string
+	Email     string
+	Password  string
 }
 
 func (ep CreateAccount) ValidEmail() bool {
@@ -75,44 +75,7 @@ func isNumber(c rune) bool {
 	return false
 }
 
-type AccountDetails struct {
-	Account
-	EmailVerified       bool
-}
-
 type AuthenticateAccount struct {
 	Email    string
 	Password string
-}
-
-type AccessToken string
-type RefreshToken string
-
-type AuthToken struct {
-	Token     AccessToken
-	ExpiresAt time.Time
-}
-
-type AccessCode struct {
-	ID        string
-	Code      string
-	CreatedAt time.Time
-}
-
-const (
-	EmailOtp OtpType = "email_access_codes"
-	PhoneOtp OtpType = "otp_access_codes"
-)
-
-type OtpType string
-
-type Verify struct {
-	AccessToken AccessToken
-	Code        AuthCode
-}
-
-type AuthCode string
-
-func (a Verify) IsValid() bool {
-	return len(a.Code) > 0 && len(a.AccessToken) > 0
 }
